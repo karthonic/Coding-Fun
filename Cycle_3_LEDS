@@ -1,0 +1,94 @@
+/*
+  Interaction Indicator/Stop Light
+
+  Cycles through 4 states turning on one LED at a time and a fourth 'Off' state.
+
+  The circuit:
+   pushbutton attached to pin 2 from +5V (+3.3 from Trinket)
+   10 kilohm resistor attached to pin 2 from ground
+    2.2 kilohm resistor attached to pin 3 from ground
+     2.2 kilohm resistor attached to pin 4 from ground
+     2.2 kilohm resistor attached to pin 5 from ground
+   Red LED attached from pin 3 to ground
+   Yellow LED attached from pin 4 to ground
+   Green LED attatched from pin 5 to ground
+
+
+  2016 Kar Rosen
+  Derative of Tom Igoe's State Change Detection Code (2011)
+
+  http://www.arduino.cc/en/Tutorial/ButtonStateChange
+
+*/
+
+// this constant won't change:
+const int  buttonPin = 2;    // the pin that the pushbutton is attached to
+const int redLed = 3;       // the pin that the LED is attached to
+const int yellowLed = 4;       // the pin that the LED is attached to
+const int greenLed = 5;       // the pin that the LED is attached to
+
+
+// Variables will change:
+int buttonPushCounter = 0;   // counter for the number of button presses
+int buttonState = 0;         // current state of the button
+int lastButtonState = 0;     // previous state of the button
+
+void setup() {
+  // initialize the button pin as a input:
+  pinMode(buttonPin, INPUT);      // set the switch pin to be an input
+  pinMode(yellowLed, OUTPUT);   // set the yellow LED pin to be an output
+  pinMode(redLed, OUTPUT);   // set the red LED pin to be an output
+  pinMode(greenLed, OUTPUT); //set green LED pin as output
+  // initialize serial communication:
+  Serial.begin(9600);
+}
+
+
+void loop() {
+  // read the pushbutton input pin:
+  buttonState = digitalRead(buttonPin);
+
+  // compare the buttonState to its previous state
+  if (buttonState != lastButtonState) {
+    // if the state has changed, increment the counter
+    if (buttonState == HIGH) {
+
+
+      switch (buttonPushCounter)
+      {
+
+        case 0:                            // no LEDs on
+          digitalWrite(redLed, HIGH);    // turn on the red LED
+          buttonPushCounter++;
+          break;
+
+        case 1:                            //red LED is on
+          digitalWrite(yellowLed, HIGH);    // turn on the yellow LED
+          digitalWrite(redLed, LOW);        //turn off red LED
+          buttonPushCounter++;
+          break;
+
+        case 2:                          //red & yellow LEDs are on
+          digitalWrite(greenLed, HIGH);    // turn on the green LED
+          digitalWrite(redLed, LOW);        //turn off red LED
+          digitalWrite(yellowLed, LOW);        //turn off red LED
+          buttonPushCounter++;
+          break;
+
+        default:                           //all 3 LEDs are on
+          digitalWrite(yellowLed, LOW);    // turn off the yellow LED
+          digitalWrite(redLed, LOW);    // turn off the red LED
+          digitalWrite(greenLed, LOW);    // turn off the green LED
+          buttonPushCounter = 0;
+          break;
+
+      }
+
+    }
+//    Serial.println(buttonPushCounter);
+
+  }
+
+  lastButtonState = buttonState;
+
+}
