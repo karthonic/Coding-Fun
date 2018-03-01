@@ -1,0 +1,82 @@
+/*
+Trunk of Uncertainty
+
+Uses random to generate a light on or off.
+
+*/
+
+// this constant won't change:
+const int  buttonPin = 2;    // the pin that the pushbutton is attached to
+const int ledPin = 4;       // the pin that the LED is attached to
+
+
+
+// Variables will change:
+int buttonPushCounter = 0;   // counter for the number of button presses
+int buttonState = 0;         // current state of the button
+int lastButtonState = 0;     // previous state of the button
+
+void setup() {
+  // initialize the button pin as a input:
+  pinMode(buttonPin, INPUT);      // set the switch pin to be an input
+  pinMode(ledPin, OUTPUT);   // set the yellow LED pin to be an output
+
+  // initialize serial communication:
+  Serial.begin(9600);
+  randomSeed(analogRead(0));
+}
+
+
+void loop() {
+  // read the pushbutton input pin:
+  buttonState = digitalRead(buttonPin);
+  int randNumber = random(0, 5000);
+
+  // compare the buttonState to its previous state
+  if (buttonState != lastButtonState) {
+    // if the state has changed, increment the counter
+    if (buttonState == HIGH) {
+
+
+      switch (buttonPushCounter)
+      {
+
+        case 0:                            // no LEDs on
+          //generate random number
+          randNumber;
+          //if number is higher than 2500
+          if (randNumber >= 2500) {
+            // turn LED on:
+            digitalWrite(ledPin, HIGH);
+          }
+          if (randNumber <= 2500) {
+            digitalWrite (ledPin, LOW);
+
+          }
+          buttonPushCounter++;
+          break
+        default:
+          //generate random number
+          randNumber;
+          //if number is higher than 2500
+          if (randNumber >= 2500) {
+            // turn LED on:
+            digitalWrite(ledPin, HIGH);
+          }
+          if (randNumber <= 2500) {
+            digitalWrite (ledPin, LOW);
+          }
+          buttonPushCounter = 0;
+          //or add delay here
+          break;
+
+      }
+
+    }
+    Serial.println(randNumber);
+
+  }
+  //add delay here
+  lastButtonState = buttonState;
+
+}
