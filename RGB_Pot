@@ -1,0 +1,49 @@
+
+/*This Code will control an RGB LED using three potentiometers controling the Red, Blue, and Green Channels. 
+Credit to the electrogenic on YouTube: https://www.youtube.com/watch?v=e3_yVWe4oFA
+
+You will nned the following: 
+1 RGB LED
+3 resistors (they use 470 ohms, I am using 220 ohms) 
+3 10k Ohm Potentiometers
+5 Black M-M jumpers 
+6 Red M-M jumpers (or 4 red jumpers, and 2 other colors for the Red Channel LED/Poteniometer)
+2 Blue M-M jumpers
+2 Green M-M Jumpers
+*/
+
+int redPin = 11;
+int bluePin = 10;
+int greenPin = 9;
+
+int redValue;
+int blueValue;
+int greenValue;
+
+void setup() {
+  // put your setup code here, to run once:
+pinMode(redPin, OUTPUT);
+pinMode(bluePin, OUTPUT);
+pinMode(greenPin, OUTPUT);
+pinMode(A0, INPUT);
+pinMode(A1, INPUT);
+pinMode(A2, INPUT);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+int redPot = analogRead (A0);
+int bluePot = analogRead (A1);
+int greenPot = analogRead (A2);
+
+redValue = map(redPot,0,1023,0, 255);
+blueValue = map(bluePot,0,1023,0, 255);
+greenValue = map(greenPot,0,1023,0, 255);
+
+analogWrite (redPin, redValue);
+analogWrite (bluePin, blueValue);
+analogWrite (greenPin, greenValue);
+
+delay(10);
+}
