@@ -1,0 +1,48 @@
+
+/*This Code will control an RGB LED using three potentiometers controling the Red, Blue, and Green Channels. 
+Credit to the electrogenic on YouTube: https://www.youtube.com/watch?v=e3_yVWe4oFA
+Tinkercad Circut Sim: https://www.tinkercad.com/things/6nwFufn0BMD-rgb-led?sharecode=mj1Y3OyQnnzFcj_5RRa005L2R1DkE6qvLAWqCOcvYy0
+
+You will nned the following: 
+1 RGB LED
+3 resistors (they use 470 ohms, I am using 220 ohms) 
+3 10k Ohm Potentiometers
+5 Black M-M jumpers 
+6 Red M-M jumpers (or 4 red jumpers, and 2 other colors for the Red Channel LED/Poteniometer)
+2 Blue M-M jumpers
+2 Green M-M Jumpers
+*/
+const int rPot = A0;  // Red Channel Pot set to Pin A0.
+const int rLED = 9; // Red Channel Output at Pin 9.
+const int gPot = A1;  // Green Channel Pot set to Pin A1.
+const int gLED = 10; // Green Channel Output set to Pin 10.
+const int bPot = A2;  // Blue Channel Pot set to Pin A2.
+const int bLED = 11; // Blue Channel output set to Pin 11
+int sensorValue = 0;        // The value read from the potentiometer, set to 0 as a default. 
+int outputValue = 0;        // The value being sent out to LED; the larger the number the brighter the LED will be. Set to 0 as a default
+
+void setup() {
+
+  Serial.begin(9600);
+  // Start a serial communication in the Arduino at 9600 bits a second.
+}
+void loop() {
+sensorValue = analogRead(rPot);  // Reads the information from the potentiometer
+outputValue = map(sensorValue, 0, 1023, 0, 255);   // Take the information read from the potentiometer and map it to value that is equal the brightness of the LED.
+analogWrite(rLED, outputValue);  // print the results  of the readings to the Serial Monitor
+  
+sensorValue = analogRead(bPot);  // Reads the information from the potentiometer
+outputValue = map(sensorValue, 0, 1023, 0, 255);   // Take the information read from the potentiometer and map it to value that is equal the brightness of the LED.
+ analogWrite(bLED, outputValue);  // print the results  of the readings to the Serial Monitor
+  
+sensorValue = analogRead(gPot);  // Reads the information from the potentiometer
+outputValue = map(sensorValue, 0, 1023, 0, 255);   // Take the information read from the potentiometer and map it to value that is equal the brightness of the LED.
+analogWrite(gLED, outputValue);  // print the results  of the readings to the Serial Monitor
+  
+  //Serial.print("sensor = ");   // prints “sensor =”
+  //Serial.print(sensorValue);  //prints the sensor value
+  //Serial.print("\t output = ");  //prints “output=” in a second row
+  //Serial.println(outputValue);   //prints the output value
+  delay(2);  //Have a 2 millisecond pause between each reading
+}
+//Code end
